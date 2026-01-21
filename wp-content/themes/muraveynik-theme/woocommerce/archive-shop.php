@@ -1,0 +1,66 @@
+
+	<section class="woocommerce-template">
+		<div class="container">
+		<div class="breadcrumbs">
+        	<?php $args = array(
+				'delimiter' => '<span>&nbsp;&nbsp;&#8250;&nbsp;&nbsp;</span>');
+				woocommerce_breadcrumb( $args ); 
+			?>
+        </div>
+		<h2 class="shop-title">Магазин</h2>
+		</div>
+	
+		<div class="container archive-container d-flex justify-between">
+			<?php
+	
+		/**
+	 * Hook: woocommerce_before_shop_loop.
+	 *
+	 * @hooked woocommerce_output_all_notices - 10
+	 * @hooked woocommerce_result_count - 20
+	 * @hooked woocommerce_catalog_ordering - 30
+	 */
+	do_action( 'woocommerce_before_shop_loop' );
+	?>
+<?php
+
+if ( woocommerce_product_loop() ) {
+	
+	woocommerce_product_loop_start();
+
+	if ( wc_get_loop_prop( 'total' ) ) {
+		while ( have_posts() ) {
+			the_post();
+			/**
+			 * Hook: woocommerce_shop_loop.
+			 */
+
+			do_action( 'woocommerce_shop_loop' );
+			
+			wc_get_template_part( 'content', 'product' );
+		}
+		?>
+
+		<?php
+	}
+
+
+	woocommerce_product_loop_end();
+
+do_action( 'woocommerce_after_shop_loop' );
+	
+
+
+	
+} else {
+	/**
+	 * Hook: woocommerce_no_products_found.
+	 *
+	 * @hooked wc_no_products_found - 10
+	 */
+	do_action( 'woocommerce_no_products_found' );
+}
+?>
+
+</div>
+</section>

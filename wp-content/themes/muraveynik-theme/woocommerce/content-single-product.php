@@ -1,0 +1,174 @@
+<?php
+/**
+ * The template for displaying product content in the single-product.php template
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/content-single-product.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://docs.woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 3.6.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+global $product;
+
+/**
+ * Hook: woocommerce_before_single_product.
+ *
+ * @hooked woocommerce_output_all_notices - 10
+ */
+do_action( 'woocommerce_before_single_product' );
+?>
+
+<h2 class="product__title"><?php the_title()?></h2>
+<div class="single-product__wrapper">
+	<?php
+		/**
+		 * Hook: woocommerce_before_single_product_summary.
+		 *
+		 * @hooked woocommerce_show_product_sale_flash - 10
+		 * @hooked woocommerce_show_product_images - 20
+		 */
+		do_action( 'woocommerce_before_single_product_summary' );
+	?>
+
+	<div class="summary entry-summary">
+		<div class="entry-summary__inner">
+			<?php
+			$attributes = $product->get_attributes(); ?>
+			<h3 class="wc_title_h3">Характеристики</h3>
+			<ul class="products-attrs__list " >
+				<li class="product-attrs__list__item">
+					<p class="product-attrs__list__item__name">Артикул:</p>
+					<p> <?php echo ( $sku = $product->get_sku() ) ? $sku : esc_html__( 'N/A', 'woocommerce' ); ?></p>
+				</li>
+
+				<li class="product-attrs__list__item">
+					<p class="product-attrs__list__item__name"><?php the_field('product__key-1'); ?></p>
+					<p> <?php the_field('product__value-1'); ?></p>
+				</li>
+
+				<li class="product-attrs__list__item">
+					<p class="product-attrs__list__item__name"><?php the_field('product__key-2'); ?></p>
+					<p> <?php the_field('product__value-2'); ?></p>
+				</li>
+
+				<li class="product-attrs__list__item">
+					<p class="product-attrs__list__item__name"><?php the_field('product__key-3'); ?></p>
+					<p> <?php the_field('product__value-3'); ?></p>
+				</li>
+			</ul>
+			
+			<?php if ($forclients = carbon_get_theme_option('crb_for_clients')){ ?>
+
+			<h3 class="wc_title_h3">Покупателям</h3>
+				<ul class="forclients__list">
+			<?php foreach ($forclients as $forclients_item){
+				?>
+				<li class="forclients__item">
+					<p class="forclients__item__name"><?php echo $forclients_item[('crb_for_clients_head')]?></p>
+					<p class="forclient__item__desc"><?php echo $forclients_item[('crb_for_clients_text')]?></p>
+				</li>
+			<?php
+			}
+			?>
+				</ul>
+			<?php
+ 			}
+			?>
+
+
+
+
+<!-- <div class="tabs__items tabs__items--product tabs__items--product--normal">
+					<h2>Характеристики</h2>
+					<table>
+						<tr>
+							<td><?php //the_field('product__key-1'); ?></td>
+							<td><?php //the_field('product__value-1'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-2'); ?></td>
+							<td><?php //the_field('product__value-2'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-3'); ?></td>
+							<td><?php //the_field('product__value-3'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-4'); ?></td>
+							<td><?php //the_field('product__value-4'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-5'); ?></td>
+							<td><?php //the_field('product__value-5'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-6'); ?></td>
+							<td><?php //the_field('product__value-6'); ?></td>
+						</tr>
+						<tr>
+							<td><?php //the_field('product__key-7'); ?></td>
+							<td><?php //the_field('product__value-7'); ?></td>
+						</tr>
+					</table>
+				</div> -->
+
+
+
+
+
+		</div>
+		
+
+		
+			
+	<div class="add-to-cart">
+		
+		<?php
+			/**
+			 * Hook: woocommerce_single_product_summary.
+			 *
+			 * @hooked woocommerce_template_single_title - 5
+			 * @hooked woocommerce_template_single_rating - 10
+			 * @hooked woocommerce_template_single_price - 10
+			 * @hooked woocommerce_template_single_excerpt - 20
+			 * @hooked woocommerce_template_single_add_to_cart - 30
+			 * @hooked woocommerce_template_single_meta - 40
+			 * @hooked woocommerce_template_single_sharing - 50
+			 * @hooked WC_Structured_Data::generate_product_data() - 60
+			 */
+			do_action( 'woocommerce_single_product_summary' );
+		?>
+		
+	</div>
+	
+	</div>
+
+	
+
+</div>
+
+		</div>
+	
+	
+	<?php
+	/**
+	 * Hook: woocommerce_after_single_product_summary.
+	 *
+	 * @hooked woocommerce_output_product_data_tabs - 10
+	 * @hooked woocommerce_upsell_display - 15
+	 * @hooked woocommerce_output_related_products - 20
+	 */
+	do_action( 'woocommerce_after_single_product_summary' );
+	?>
+
+
+<?php do_action( 'woocommerce_after_single_product' ); ?>
