@@ -38,7 +38,7 @@
                 ?>
 
                 <?php
-                if ($email_link = carbon_get_theme_option('tel_contact_link')) {
+                if ($email_link = carbon_get_theme_option('mail_contact_link')) {
                 ?>
                     <div class="contact-us__links__item">
                         <a href="tel:<?php echo $email_link; ?>">
