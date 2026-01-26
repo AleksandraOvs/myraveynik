@@ -616,7 +616,6 @@ a.menu-link.sub-menu-link.open:after {
 }
 
 .header-scroll .header-front__bottom {
-  background: rgb(237, 237, 237, 0.9);
   box-shadow: 0px 2px 3px rgba(0, 0, 0, .15);
   transition: all .5s linear;
 }
