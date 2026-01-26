@@ -21,7 +21,7 @@
             <div class="contact-us__links">
 
                 <?php
-                if ($phone_link = carbon_get_theme_option('tel_contact_link') && $phone_link_vis = carbon_get_theme_option('tel_contact')) {
+                if ($phone_link = carbon_get_theme_option('tel_contact_link')) {
                 ?>
                     <div class="contact-us__links__item">
                         <a href="tel:<?php echo $phone_link; ?>">
@@ -30,7 +30,7 @@
                                 echo '<img class="contact-link__img" width="25" height="25" src="' . wp_get_attachment_image_url($phone_link_icon) . '" alt="" >';
                             }
                             ?>
-                            <span class="link-span"><?php echo $phone_link_vis; ?></span></a>
+                            <span class="link-span"><?php echo carbon_get_theme_option('tel_contact_link'); ?></span></a>
                     </div>
 
                 <?php
