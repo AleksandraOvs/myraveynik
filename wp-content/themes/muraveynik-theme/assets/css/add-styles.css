@@ -81,11 +81,12 @@
 }
 
 .section-we-work__steps li:nth-child(2) .steps-item__img {
-    position: relative;
-    right: unset;
-    bottom: unset;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     width: 170px;
     z-index: -1;
+    height: 100%;
 }
 
 .section-we-work__steps li:nth-child(2) .steps-item__img img {
