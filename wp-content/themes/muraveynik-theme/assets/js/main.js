@@ -142,8 +142,20 @@ $(document).ready(function(){
         container.hide();
     }
 
-
+// === FAQ ===
+    document.querySelectorAll(".faq-question").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const parent = btn.closest(".faq-item");
+            if (!parent) return;
+            const icon = btn.querySelector(".faq-icon");
+            const answer = parent.querySelector(".faq-answer");
+            parent.classList.toggle("active");
+            if (icon) icon.classList.toggle("active");
+            if (answer) answer.style.maxHeight = parent.classList.contains("active") ? answer.scrollHeight + "px" : null;
+        });
+    });
 });
+
 
 // const div = document.querySelector( '#result');
  
