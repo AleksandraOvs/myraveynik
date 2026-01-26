@@ -41,13 +41,13 @@
                 if ($email_link = carbon_get_theme_option('mail_contact_link')) {
                 ?>
                     <div class="contact-us__links__item">
-                        <a href="tel:<?php echo $email_link; ?>">
+                        <a href="<?php echo $email_link; ?>">
                             <?php
                             if ($email_link_icon = carbon_get_theme_option('mail_contact_link_icon')) {
                                 echo '<img class="contact-link__img" width="25" height="25" src="' . wp_get_attachment_image_url($email_link_icon) . '" alt="" >';
                             }
                             ?>
-                            <span class="link-span"><?php echo $email_link; ?></span></a>
+                            <span class="link-span">Написать на почту</span></a>
                     </div>
 
                 <?php
