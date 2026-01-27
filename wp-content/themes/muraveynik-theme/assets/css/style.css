@@ -471,8 +471,8 @@ section {
   z-index: 2;
   top: 115px;
   right: 8%;
-  width: 50%;
-  height: calc(100vh - 70px);
+  width: 35%;
+  height: calc(100vh - 150px);
   background: url(../../images/main-bg.png) no-repeat;
   background: url(../../images/main-bg.webp) no-repeat;
   background-size: contain;
