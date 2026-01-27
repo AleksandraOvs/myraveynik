@@ -838,6 +838,10 @@ stroke: #23C229;
   .bs-slider-next:hover svg path {
     fill: #fff;
   }
+
+  .header__actions__search {
+    top: 55px;
+  }
 }
 
 /*ADVANTAGES*/
