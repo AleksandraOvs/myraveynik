@@ -842,6 +842,11 @@ stroke: #23C229;
   .header__actions__search {
     top: 55px;
   }
+
+  .header__actions__search form {
+    padding: 0;
+  }
+
 }
 
 /*ADVANTAGES*/
