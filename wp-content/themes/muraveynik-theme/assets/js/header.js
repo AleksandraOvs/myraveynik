@@ -1,55 +1,79 @@
-jQuery(document).ready(function($)  {
+jQuery(document).ready(function ($) {
 
-    const headerFront = document.querySelector('.header-front');
-    const headerSearch = document.querySelector('.header__actions__search');
-    
-  // Вверх и показ верхнего меню
-    const headerChange = () => {
+   const headerFront = document.querySelector('.header-front');
+   const headerSearch = document.querySelector('.header__actions__search');
+
+   // Вверх и показ верхнего меню
+   const headerChange = () => {
       const
-        mainBlock = document.querySelector('body');
+         mainBlock = document.querySelector('body');
 
-  
-       window.addEventListener('scroll', () => {
+
+      window.addEventListener('scroll', () => {
          if (-mainBlock.getBoundingClientRect().top > 550) {
             headerFront.classList.add('header-scroll');
-            headerSearch.classList.add('show');
-        
+            // headerSearch.classList.add('show');
+
          } else {
             headerFront.classList.remove('header-scroll');
-            headerSearch.classList.remove('show');
+            //  headerSearch.classList.remove('show');
          }
-       })
-    }
-    headerChange();
+      })
+   }
+   headerChange();
 
-   $('.header__search-btn').click(function(){
+   $('.header__search-btn').on('click', function (e) {
+      e.stopPropagation(); // чтобы клик по кнопке не считался кликом "вне"
       $('.header__actions__search').toggleClass('show');
    });
 
-   $('.burger').click(function(event){
-      $('.burger, .header-front__bottom__inner-block, .header-st__burger__menu').toggleClass('show');  
+   $('.header__actions__search').on('click', function (e) {
+      e.stopPropagation(); // чтобы клик внутри формы не закрывал её
    });
 
-   $('.header-st__burger').click(function(event){
-      $('.header-st__burger, .header-st__menu').toggleClass('active');
+   $(document).on('click', function () {
+      $('.header__actions__search').removeClass('show');
    });
 
-   $('header__inner__right').fadeIn(5000); 
-
-
-   $(document).mouseup( function(e){ // событие клика по веб-документу
-      if( window.innerWidth >= 1200 ){
-         $('.header__catalog__link').click(function(event){
-            $('.header__catalog').find('.catalog__menu').addClass('open'); 
-         });
-
-		   var div = $( ".catalog__menu" ); // тут указываем ID элемента
-		      if ( !div.is(e.target) // если клик был не по нашему блоку
-		         && div.has(e.target).length === 0 ) { // и не по его дочерним элементам
-			      div.removeClass('open'); // скрываем его
-		      };
-
-            
+   // === Мобильное меню ===
+   const body = document.body;
+   const menu = document.querySelector(".mobile-menu");
+   const burger = document.querySelector(".menu-toggle");
+   document.addEventListener("click", function (e) {
+      if (burger && e.target.closest(".menu-toggle")) {
+         e.stopPropagation();
+         burger.classList.toggle("active");
+         if (menu) menu.classList.toggle("active");
+         body.classList.toggle("_fixed");
+         return;
       }
-	});
+      if (menu && e.target.closest(".mobile-menu .main-navigation a")) {
+         if (burger) burger.classList.remove("active");
+         menu.classList.remove("active");
+         body.classList.remove("_fixed");
+         return;
+      }
+      if (menu && !e.target.closest(".mobile-menu") && burger) {
+         burger.classList.remove("active");
+         menu.classList.remove("active");
+         body.classList.remove("_fixed");
+      }
+   });
+
+
+   $(document).mouseup(function (e) { // событие клика по веб-документу
+      // if (window.innerWidth >= 1200) {
+      $('.header__catalog__link').click(function (event) {
+         $('.header__catalog').find('.catalog__menu').addClass('open');
+      });
+
+      var div = $(".catalog__menu"); // тут указываем ID элемента
+      if (!div.is(e.target) // если клик был не по нашему блоку
+         && div.has(e.target).length === 0) { // и не по его дочерним элементам
+         div.removeClass('open'); // скрываем его
+      };
+
+
+      //}
+   });
 })

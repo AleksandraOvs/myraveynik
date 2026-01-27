@@ -113,6 +113,13 @@ body {
   overflow-x: hidden;
 }
 
+body._fixed {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+
 h1,
 h2 {
   font-size: 4.8rem;
@@ -527,7 +534,7 @@ section {
 }
 
 .section-hero .container {
-  z-index: 7;
+  z-index: 3;
   height: 100%;
 }
 

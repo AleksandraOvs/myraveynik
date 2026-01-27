@@ -20,96 +20,33 @@
 		echo '<div class="main-page__decor element-animation3"></div>';
 	endif; ?>
 
+	<div class="mobile-menu">
+		<div class="container">
+			<?php
+			wp_nav_menu(
+				array(
+					'theme_location' => 'menu-mobile',
+					'container' => false,
+					'menu_class' => 'mm',
+				)
+			);
+			?>
+
+			<div class="mobile-menu__bottom">
+				<?php get_template_part('template-parts/working-address'); ?>
+				<?php get_template_part('template-parts/header-contacts'); ?>
+			</div>
+
+		</div>
+
+	</div>
+
 	<header class="header header-front">
 		<div class="header-front__top">
 			<div class="container  flex align-center justify-between">
-				<div class="header-front__top__working__address">
-					<div class="header-front__top__working flex align-between">
-						<?php
-						if ($working_icon = carbon_get_theme_option('crb_working_icon')) {
-							echo '<img class="header__work-icon" width="21" height="20" src="' . wp_get_attachment_image_url($working_icon) . '" alt="" >';
-						}
-						?>
-						<?php
-						if ($working_info = carbon_get_theme_option('crb_working')) {
-							echo '<p class="header__work-info">' . $working_info . '</p>';
-						}
-						?>
-					</div><!-- ./end of header__inner__working -->
+				<?php get_template_part('template-parts/working-address'); ?>
+				<?php get_template_part('template-parts/header-contacts'); ?>
 
-					<div class="header-front__top__address flex align-between">
-						<?php
-						if ($address_icon = carbon_get_theme_option('crb_address_icon')) {
-							echo '<img class="header__address-icon" width="21" height="20" src="' . wp_get_attachment_image_url($address_icon) . '" alt="" >';
-						}
-						?>
-						<?php
-						if ($address = carbon_get_theme_option('crb_address')) {
-							echo '<p class="header__address">' . $address . '</p>';
-						}
-						?>
-					</div> <!-- ./end of header__inner__address -->
-				</div> <!-- ./end of header__inner__working__address -->
-
-				<div class="header-front__top__contacts flex align-center justify-end">
-
-					<div class="header-front__top__email">
-						<?php
-						if ($email_link = carbon_get_theme_option('mail_contact_link')) {
-						?>
-							<a class="header__email-link flex align-center" href="<?php echo $email_link; ?>">
-								<?php
-								if ($email_link_icon = carbon_get_theme_option('mail_contact_link_icon')) {
-									echo '<img class="header__email-link__img" width="25" height="25" src="' . wp_get_attachment_image_url($email_link_icon) . '" alt="" >';
-								}
-								?>
-								<span class="link-span"><?php echo $email_link; ?></span></a>
-						<?php
-						}
-						?>
-					</div><!-- ./end of header-front__top__phone -->
-
-					<div class="header-front__top__phone">
-						<?php
-						if ($phone_link = carbon_get_theme_option('tel_contact_link') && $phone_link_vis = carbon_get_theme_option('tel_contact')) {
-						?>
-							<a class="header__phone-link flex align-center" href="tel:<?php echo $phone_link; ?>">
-								<?php
-								if ($phone_link_icon = carbon_get_theme_option('tel_contact_link_icon')) {
-									echo '<img class="header__phone-link__img" width="25" height="25" src="' . wp_get_attachment_image_url($phone_link_icon) . '" alt="" >';
-								}
-								?>
-								<span class="link-span"><?php echo $phone_link_vis; ?></span></a>
-						<?php
-						}
-						?>
-					</div><!-- ./end of header-front__top__phone -->
-
-					<?php
-					if ($contacts = carbon_get_theme_option('contacts')) {
-					?>
-						<ul class="header-front__top__messengers">
-							<?php
-							foreach ($contacts as $contact) {
-							?>
-								<li class="social__item">
-									<a href="<?php echo $contact['contact_link']; ?>" class="social__link">
-										<?php
-										$thumb_contact = wp_get_attachment_image_url($contact['contact_image'], 'full');
-										?>
-										<img class="social__img" width="25" height="25" src="<?php echo $thumb_contact; ?>" alt="<?php echo $contact['contact_name']; ?>">
-									</a>
-								</li>
-							<?php
-							}
-							?>
-						</ul>
-					<?php
-					}
-					?>
-
-
-				</div>
 			</div><!-- ./end of container -->
 		</div><!-- ./end of header-front__top -->
 
@@ -128,44 +65,40 @@
 						?>
 					</a>
 
-					<div class="header-front__bottom__inner__mob">
+					<!-- <div class="header-front__bottom__inner__mob">
 
 						<div class="mob__contacts">
 							<?php
-							if (carbon_get_theme_option('tel_contact_link') && carbon_get_theme_option('tel_contact_link_icon')) { ?>
+							//if (carbon_get_theme_option('tel_contact_link') && carbon_get_theme_option('tel_contact_link_icon')) { 
+							?>
 
-								<a class="mob__contacts__link" href="tel:<?php echo carbon_get_theme_option('tel_contact_link') ?>">
+								<a class="mob__contacts__link" href="tel:<?php //echo carbon_get_theme_option('tel_contact_link') 
+																			?>">
 								<?php
-								echo '<img class="mob__contacts__link__img" width="25" height="25" src="' . wp_get_attachment_image_url(carbon_get_theme_option('tel_contact_link_icon')) . '" alt="" >';
-							}
+								//echo '<img class="mob__contacts__link__img" width="25" height="25" src="' . wp_get_attachment_image_url(carbon_get_theme_option('tel_contact_link_icon')) . '" alt="" >';
+								//}
 								?>
 								</a>
 								<?php
 								//}
 								?>
 
-								<a class="mob__cart" href="<?php echo site_url() ?>/cart/">
+								<a class="mob__cart" href="<?php //echo site_url() 
+															?>/cart/">
 									<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path id="Vector" d="M8.75553 24.1213C7.15555 24.1213 5.84646 25.4304 5.84646 27.0304C5.84646 28.6304 7.15555 29.9395 8.75553 29.9395C10.3555 29.9395 11.6646 28.6304 11.6646 27.0304C11.6646 25.4304 10.3555 24.1213 8.75553 24.1213ZM0.0283203 0.848755V3.75783H2.93739L8.17372 14.8123L6.13737 18.3032C5.99192 18.7395 5.84646 19.3214 5.84646 19.7577C5.84646 21.3577 7.15555 22.6668 8.75553 22.6668H26.21V19.7577H9.33735C9.1919 19.7577 9.04644 19.6123 9.04644 19.4668V19.3213L10.3555 16.8486H21.1191C22.2827 16.8486 23.1554 16.2668 23.5918 15.3941L28.8281 5.93963C29.119 5.64872 29.119 5.50327 29.119 5.21236C29.119 4.33964 28.5372 3.75783 27.6645 3.75783H6.13737L4.82829 0.848755H0.0283203ZM23.3009 24.1213C21.7009 24.1213 20.3918 25.4304 20.3918 27.0304C20.3918 28.6304 21.7009 29.9395 23.3009 29.9395C24.9009 29.9395 26.21 28.6304 26.21 27.0304C26.21 25.4304 24.9009 24.1213 23.3009 24.1213Z" fill="#23C229" />
 									</svg>
-									<span class="header__cart__count"><span><?php echo WC()->cart->get_cart_contents_count(); ?><span>
+									<span class="header__cart__count"><span><?php //echo WC()->cart->get_cart_contents_count(); 
+																			?><span>
 								</a>
 						</div>
 						<button id="burger" class="burger"></button>
-					</div>
-					<div class="header-front__bottom__inner-block flex align-end justify-end">
+					</div> -->
+					<div class="header-front__bottom__inner-block flex align-center justify-end">
 						<!-- <div class="header-st__burger">
                         <span></span>
                     </div>	 -->
-						<?php
-						wp_nav_menu(
-							array(
-								'theme_location' => 'menu-mobile',
-								'container' => false,
-								'menu_class' => 'mobile-menu',
-							)
-						);
-						?>
+
 						<?php
 						wp_nav_menu(
 							array(
@@ -175,21 +108,7 @@
 							)
 						);
 						?>
-						<div class="header__actions__search">
-							<?php if (is_active_sidebar('sidebar-search-header')) { ?>
-								<?php dynamic_sidebar('sidebar-search-header'); ?>
-								<?php //get_search_form(); 
-								?>
-							<?php } ?>
 
-							<div class="search__list__wrapper">
-								<!-- <button class="search__close" type="button">
-                                		<span class="sr-only">Закрыть поиск</span>
-                        			</button> -->
-								<ul id="result"></ul>
-
-							</div>
-						</div>
 						<div class="header-actions__inner">
 
 							<!-- <div class="header__actions flex align-stretch"> -->
@@ -225,18 +144,48 @@
 								<span class="header__cart__count"><span><?php echo WC()->cart->get_cart_contents_count(); ?><span>
 							</a>
 
+							<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+								<div class="bar"></div>
+								<div class="bar"></div>
+								<div class="bar"></div>
+							</button>
+
+							<div class="header__actions__search">
+								<?php //if (is_active_sidebar('sidebar-search-header')) { 
+								?>
+								<?php //dynamic_sidebar('sidebar-search-header'); 
+								?>
+								<?php get_search_form();
+								?>
+								<?php //} 
+								?>
+
+								<div class="search__list__wrapper">
+									<button class="search__close" type="button">
+										<span class="sr-only">Закрыть поиск</span>
+									</button>
+									<ul id="result"></ul>
+
+								</div>
+							</div>
+
+
+
 						</div>
 
 
 
 					</div>
-
-
-
 				</div>
 
+
+
 			</div><!-- ./end of container -->
+
+
 		</div>
+
+
 
 	</header>
 
