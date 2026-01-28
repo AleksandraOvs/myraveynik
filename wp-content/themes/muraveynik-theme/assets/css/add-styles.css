@@ -245,6 +245,21 @@
     width: 100%;
 }
 
+.faq-slider .slick-dots,
+.partners__list ul.slick-dots {
+    margin-top: 30px;
+}
+
+.faq-slider .slick-dots li,
+.partners__list ul.slick-dots li {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid #23C229;
+}
+
 .section__inner {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -441,21 +456,6 @@
 
     .faq-slider .slick-list {
         height: 100%;
-    }
-
-    .faq-slider .slick-dots,
-    .partners__list ul.slick-dots {
-        margin-top: 30px;
-    }
-
-    .faq-slider .slick-dots li,
-    .partners__list ul.slick-dots li {
-        position: relative;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background-color: transparent;
-        border: 1px solid #23C229;
     }
 
     .faq-slider .slick-center {
