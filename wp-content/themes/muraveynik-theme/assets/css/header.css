@@ -820,12 +820,17 @@ button.header__search-btn svg {
 .header-st__menu li a {
   font-size: 16px;
   font-weight: 500;
+  text-transform: uppercase;
   transition: all .3s linear;
 }
 
 .header-st__menu li a:hover {
   color: #23C229;
   transition: all .3s linear;
+}
+
+.accent-list {
+  color: #f99a30;
 }
 
 /*   
@@ -1203,12 +1208,6 @@ ul.ui-autocomplete {
     line-height: 2;
     font-weight: 300;
   } */
-
-  .header-st__menu li a {
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 2;
-  }
 
   .catalog__menu__arrow {
     display: none;
