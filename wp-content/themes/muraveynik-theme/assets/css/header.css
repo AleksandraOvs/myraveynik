@@ -829,7 +829,8 @@ button.header__search-btn svg {
   transition: all .3s linear;
 }
 
-.accent-list {
+.accent-link,
+.accent-link a {
   color: #f99a30;
 }
 
