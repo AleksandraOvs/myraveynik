@@ -576,6 +576,10 @@ button.menu-toggle.active .bar:nth-child(3) {
   width: 100%;
 }
 
+.container .mm li.accent-link a {
+  color: #F99A30;
+}
+
 .container .mm li a {
   color: #fff;
   font-size: 20px;
