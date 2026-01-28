@@ -260,6 +260,16 @@
     border: 1px solid #23C229;
 }
 
+.faq-slider .slick-dots li.slick-active,
+.partners__list ul.slick-dots li.slick-active {
+    background: #23C229;
+}
+
+.faq-slider .slick-dots li:not(:last-child),
+.partners__list ul.slick-dots li:not(:last-child) {
+    margin-right: 5px;
+}
+
 .section__inner {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -475,14 +485,6 @@
 
     .faq-slider .slick-slide.slick-center {
         opacity: 1;
-    }
-
-    .faq-slider .slick-dots li.slick-active {
-        background: #23C229;
-    }
-
-    .faq-slider .slick-dots li:not(:last-child) {
-        margin-right: 5px;
     }
 
     .partners__inner {
