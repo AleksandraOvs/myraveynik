@@ -63,7 +63,7 @@ $partners    = carbon_get_post_meta(get_the_ID(), 'crb_partners_list');
         $slider.slick({
             slidesToShow: 1,
             slidesToScroll: 1,
-            arrows: true,
+            arrows: false,
             dots: true
         });
     });
