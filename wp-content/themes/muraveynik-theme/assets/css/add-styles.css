@@ -502,6 +502,10 @@
         width: 100%;
     }
 
+    .partners__description {
+        width: 100%;
+    }
+
 }
 
 @media (max-width: 768px) {
