@@ -366,7 +366,7 @@
 }
 
 .partners__item {
-    width: calc(100% / 4 - .5em);
+    width: calc(100% / 5 - .6em);
 }
 
 .contact-us {

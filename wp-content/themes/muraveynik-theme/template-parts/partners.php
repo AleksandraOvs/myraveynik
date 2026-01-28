@@ -56,8 +56,8 @@ $partners    = carbon_get_post_meta(get_the_ID(), 'crb_partners_list');
         const $slider = $('.js-partners-slider');
         const items = $slider.children('.partners__item');
 
-        for (let i = 0; i < items.length; i += 8) {
-            items.slice(i, i + 8).wrapAll('<div class="partners-slide"></div>');
+        for (let i = 0; i < items.length; i += 10) {
+            items.slice(i, i + 10).wrapAll('<div class="partners-slide"></div>');
         }
 
         $slider.slick({
