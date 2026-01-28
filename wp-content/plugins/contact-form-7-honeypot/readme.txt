@@ -2,7 +2,7 @@
 Tags: anti-spam, spam protection, captcha, honeypot, cf7 database
 Requires at least: 4.8
 Tested up to: 6.9
-Stable tag: 3.3.2
+Stable tag: 3.4.0
 Requires PHP: 5.6
 Contributors: wpexpertsio
 License: GPLv2 or later
@@ -28,6 +28,7 @@ Right out of the box, CF7 Apps includes:
 ✅ **Database Entries App**
 ✅ **Redirection App**
 ✅ **Webhook App**
+✅ **ACF Integeration**
 💡 **[Suggest a Feature](https://cf7apps.com/submit-idea/?utm_source=wp_org&utm_medium=readme&utm_campaign=suggest_a_feature)**
 
 And that’s just the beginning.
@@ -55,6 +56,10 @@ Easily redirect users to any internal or external page after submitting a form. 
 
 Automatically forward your Contact Form 7 submission data to any external service using **webhooks.**This extension enables seamless API integrations, automation workflows, and third-party connections. No additional plugins or coding required just add your webhook URL and you’re ready to go.
 
+🌟 **Integrate ACF Fields into Your Forms**
+
+Easily pull Advanced Custom Fields (ACF) data into your Contact Form 7 forms using the built-in ACF field tags. This integration lets you map and display your custom ACF fields directly inside CF7 without any extra plugins or coding. Just enable the feature, select your ACF fields, and your form is ready to use.
+
 **NOTE:**
 The best thing is that both features work independently. You can run them alone or together based on your site’s needs.
 
@@ -65,7 +70,9 @@ With the CF7 Apps, you can do the following:
   ✔️ Add hCaptcha to Contact Form 7 for privacy-first anti-spam
   ✔️ Store and manage Contact Form 7 entries directly in WordPress
   ✔️ Redirect your Contact Form 7 submissions to any internal or external page.
- ✔️ Send your form data to any third-party service or custom endpoint through our Webhook.
+  ✔️ Send your form data to any third-party service or custom endpoint through our Webhook.
+  ✔️ Display dynamic ACF field values inside your Contact Form 7 forms for personalized entries.
+
 ==Why Should You Install CF7 Apps?==
 
 * Works exclusively with Contact Form 7
@@ -75,6 +82,21 @@ With the CF7 Apps, you can do the following:
 * Continuously updated with new apps and requested features
 
 We built CF7 Apps for users who want more power without abandoning the simplicity of Contact Form 7.
+
+== Try Our Other Awesome WordPress Plugins ==
+
+* **[Post SMTP:](https://wordpress.org/plugins/post-smtp/)** Reliable WordPress email delivery plugin with detailed email logs and multiple SMTP integrations.  
+* **[Gutena Forms:](https://wordpress.org/plugins/gutena-forms/)** Create modern, responsive contact forms directly in the Gutenberg block editor. Includes advanced fields, spam protection (reCAPTCHA & Cloudflare Turnstile), and entry management.  
+* **[WP EasyPay:](https://wordpress.org/plugins/wp-easy-pay/)** Accept Square payments and donations easily on your WordPress site.  
+* **[Password Protected:](https://wordpress.org/plugins/password-protected/)** Secure your WordPress site, posts, pages, and categories with simple password protection.  
+* **[Advanced File Manager:](https://wordpress.org/plugins/file-manager-advanced/)** Manage and organize WordPress files effortlessly from your dashboard.  
+* **[WC Shop Sync:](https://wordpress.org/plugins/wc-shop-sync/)** Add Square payments and sync WooCommerce products, customers, and orders with Square POS.  
+* **[myCred:](https://wordpress.org/plugins/mycred/)** Add gamification, rewards, ranks, and a points management system to your WordPress website.  
+* **[Bookify:](https://wordpress.org/plugins/bookify/)** Your complete online bookings and appointment scheduling solution for WordPress.  
+* **[All In One Login:](https://wordpress.org/plugins/aio-login/)** Secure your WordPress login page, change wp-login.php URL, and add social logins including Google, Facebook, Microsoft, and LINE.  
+* **[New User Approve:](https://wordpress.org/plugins/new-user-approve/)** Control new user registrations by approving or denying signups.  
+* **[WP Experts WooCommerce Store:](https://wpexperts.io/)** Explore premium WooCommerce plugins and solutions by WPExperts.  
+
 
 ==Contribute or Report Issues==
 Do you have a feature request or bug to report? Contact us via the [official Support Channel.](https://wordpress.org/support/plugin/contact-form-7-honeypot)
@@ -134,6 +156,10 @@ Yep! See the **Installation** section for more details and [this Gist](https://g
 = Does Contact Form 7 save form submissions by default? =
 No, Contact Form 7 does not store submissions by default. With the CF7 Apps Entries Database App, you can log every entry directly in your WordPress dashboard and access them anytime.
 
+= How do I integrate ACF fields with Contact Form 7? =
+Enable the **ACF Integration** in CF7 Apps, then use the ACF field tag in your Contact Form 7 form. Select the custom field you created in ACF, and insert the tag into your form. The field will now appear on the frontend form automatically.  
+
+
 = Can I filter Contact Form 7 entries by form or date? =
 Yes, the Entries Database App lets you filter submissions by specific forms or date ranges, making it easier to manage and review the entries you need.
 
@@ -156,6 +182,13 @@ CF7 Apps is a third-party plugin and is not officially associated with or endors
 5. CF7 Apps Tags.
 
 == Changelog ==
+
+= 3.4.0 - Jan 28, 2026 =
+* NEW - Introduced Advanced Custom Fields (ACF) Integration.
+* IMPROVEMENT - Enhanced Entries View for multiple fields in Contact Form 7 and improved submissions display in View Entries.
+* IMPROVEMENT - Optimized query for better performance.
+* FIX - PHP notice in logs after upgrading to 3.1.0.
+* FIX - Resolved automatic spam issues.
 
 = 3.3.2 - Jan 05, 2026 =
 * IMPROVEMENT - CF7 Apps were not visible on individual forms during form creation.

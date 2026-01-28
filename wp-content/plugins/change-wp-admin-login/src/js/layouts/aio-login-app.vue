@@ -44,6 +44,10 @@
 							v-if="isSocialLogin()"
 						></aio-login-social-login-main>
 
+						<aio-login-integrations
+							v-if="isIntegrations()"
+						></aio-login-integrations>
+
 						<aio-login-getpro
 							v-if="isGetPro()"
 						></aio-login-getpro>
@@ -135,6 +139,10 @@ export default {
 
 		isSocialLogin() {
 			return this.getActiveTab() === 'social-login';
+		},
+
+		isIntegrations() {
+			return this.getActiveTab() === 'integrations';
 		},
 
 		isGetPro() {

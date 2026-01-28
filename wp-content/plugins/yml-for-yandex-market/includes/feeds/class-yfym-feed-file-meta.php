@@ -90,6 +90,7 @@ class Y4YM_Feed_File_Meta {
 			$file_extension = 'xml';
 		}
 		return $file_extension;
+
 	}
 
 	/**

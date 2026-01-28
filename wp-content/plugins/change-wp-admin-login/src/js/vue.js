@@ -18,8 +18,13 @@ import aioLoginDaysSelector from './components/aio-login-days-selector.vue';
 
 import aioLoginTempAccess from './pages/aio-login-temp-access.vue';
 import aioLoginSocialLoginMain from './pages/social-login-main.vue';
+import aioLoginIntegrations from './pages/integrations.vue';
 import aioLoginCaptcha from './demo/components/aio-login-captcha.vue';
 import aioLoginRecaptchaPopup from './components/aio-login-recaptcha-popup.vue';
+import aioLoginHcaptchaCard from './components/aio-login-hcaptcha-card.vue';
+import aioLoginHcaptchaPopup from './components/aio-login-hcaptcha-popup.vue';
+import aioLoginWooCommercePopup from './components/aio-login-woocommerce-popup.vue';
+import aioLoginWooCommerceCard from './components/aio-login-woocommerce-card.vue';
 /**
  * Importing metadata components
  */
@@ -115,8 +120,13 @@ aio_login__mount_helper.prototype.mount = function( element, required_components
 	aio_login__app.component( 'aio-login-recent-activity', aioLoginRecentActivity );
 	aio_login__app.component( 'aio-login-temp-access', aioLoginTempAccess );
 	aio_login__app.component( 'aio-login-social-login-main', aioLoginSocialLoginMain );
+	aio_login__app.component( 'aio-login-integrations', aioLoginIntegrations );
 	aio_login__app.component( 'aio-login-captcha', aioLoginCaptcha );
 	aio_login__app.component( 'aio-login-recaptcha-popup', aioLoginRecaptchaPopup );
+	aio_login__app.component( 'aio-login-hcaptcha-card', aioLoginHcaptchaCard );
+	aio_login__app.component( 'aio-login-hcaptcha-popup', aioLoginHcaptchaPopup );
+	aio_login__app.component( 'aio-login-woocommerce-popup', aioLoginWooCommercePopup );
+	aio_login__app.component( 'aio-login-woocommerce-card', aioLoginWooCommerceCard );
 	aio_login__app.component( 'aio-login-form', aioLoginForm );
 	aio_login__app.component( 'aio-login-submit-button', aioLoginSubmitButton );
 	aio_login__app.component( 'aio-login-media', aioLoginMedia );

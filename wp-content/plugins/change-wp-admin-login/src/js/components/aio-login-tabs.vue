@@ -13,7 +13,7 @@
 				:style="getStyle( tab )"
 			/>
 			{{ tab.title }}
-			<span class="aio-login__pro-tab" v-if="tab['is-pro']">
+			<span class="aio-login__pro-tab" v-if="tab['is-pro'] && !hasPro">
 				PRO
 			</span>
 		</a>
@@ -36,6 +36,7 @@ export default {
 
 	data: ( vm ) => ( {
 		test_tab: {},
+		hasPro: 'true' === window.aio_login__app_object.has_pro,
 	} ),
 
 	watch: {
@@ -76,7 +77,7 @@ export default {
 			if ( 'getpro' === tab.slug ) {
 				return this.assetsUrl + `images/icons/${ tab.icon }.png`;
 			}
-			if ( 'social-login' === tab.slug ) {
+			if ( 'social-login' === tab.slug || 'integrations' === tab.slug ) {
 				return this.assetsUrl + `images/icons/${ tab.icon }${ this.activeTab( tab ) ? '-active' : '' }.svg`;
 			}
 			return this.assetsUrl + `images/icons/${ tab.icon }${ this.activeTab( tab ) ? '-active' : '' }.png`;

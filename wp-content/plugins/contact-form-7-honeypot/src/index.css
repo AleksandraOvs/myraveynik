@@ -533,6 +533,10 @@ button:focus {
     border-bottom: 1px solid #D4D4E4;
 }
 
+.cf7apps-app-setting-header h1 {
+    font-weight: 700;
+}
+
 .cf7apps-app-setting-section {
     padding: 10px 0;
 }
@@ -816,6 +820,10 @@ select.cf7apps-form-input {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 700px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    
 }
 
 .cf7apps-popup-close {

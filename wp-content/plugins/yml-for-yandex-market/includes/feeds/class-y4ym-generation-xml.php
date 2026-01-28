@@ -5,7 +5,7 @@
  *
  * @link       https://icopydoc.ru
  * @since      0.1.0
- * @version    5.0.22 (15-10-2025)
+ * @version    5.1.0 (27-01-2026)
  *
  * @package    Y4YM
  * @subpackage Y4YM/includes
@@ -283,7 +283,7 @@ class Y4YM_Generation_XML {
 					return;
 				}
 
-				$planning_result = Y4YM_Admin::cron_sborki_task_planning( $this->get_feed_id() );
+				$planning_result = Y4YM_Cron_Manager::cron_sborki_task_planning( $this->get_feed_id() );
 				if ( false === $planning_result ) {
 					new Y4YM_Error_Log( sprintf(
 						'FEED #%1$s; ERROR: %2$s `y4ym_cron_sborki` %3$s 1; %4$s: %5$s; %6$s: %7$s',
@@ -321,7 +321,7 @@ class Y4YM_Generation_XML {
 				);
 
 				// сразу запланируем задачу через 32 секунды
-				$planning_result = Y4YM_Admin::cron_sborki_task_planning( $this->get_feed_id(), 32 );
+				$planning_result = Y4YM_Cron_Manager::cron_sborki_task_planning( $this->get_feed_id(), 32 );
 				if ( false === $planning_result ) {
 					new Y4YM_Error_Log( sprintf(
 						'FEED #%1$s; ERROR: %2$s `y4ym_cron_sborki` %3$s 2; %4$s: %5$s; %6$s: %7$s',
@@ -497,7 +497,7 @@ class Y4YM_Generation_XML {
 			case 3:
 
 				// сразу запланируем задачу через 32 секунды
-				$planning_result = Y4YM_Admin::cron_sborki_task_planning( $this->get_feed_id(), 32 );
+				$planning_result = Y4YM_Cron_Manager::cron_sborki_task_planning( $this->get_feed_id(), 32 );
 
 				// постов нет, пишем концовку файла
 				$last_element_feed = (int) univ_option_get(

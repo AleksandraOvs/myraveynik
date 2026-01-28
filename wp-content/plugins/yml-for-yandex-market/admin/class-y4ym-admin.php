@@ -5,7 +5,7 @@
  *
  * @link       https://icopydoc.ru
  * @since      0.1.0
- * @version    5.0.26 (24-12-2025)
+ * @version    5.1.0 (27-01-2026)
  *
  * @package    Y4YM
  * @subpackage Y4YM/admin
@@ -503,7 +503,7 @@ class Y4YM_Admin {
 		}
 		new ICPD_Set_Admin_Notices( __( 'Updated', 'yml-for-yandex-market' ), 'success' );
 
-		$planning_result = self::cron_starting_feed_creation_task_planning( $feed_id );
+		$planning_result = Y4YM_Cron_Manager::cron_starting_feed_creation_task_planning( $feed_id );
 		if ( true === $planning_result ) {
 			new ICPD_Set_Admin_Notices(
 				sprintf( '%s. %s: %s',
@@ -941,229 +941,6 @@ class Y4YM_Admin {
 	}
 
 	/**
-	 * Add cron intervals to WordPress. Function for `cron_schedules` action-hook.
-	 * 
-	 * @param array $schedules
-	 * 
-	 * @return array
-	 */
-	public function add_cron_intervals( $schedules ) {
-
-		$schedules['every_minute'] = [
-			'interval' => 60,
-			'display' => __( 'Every minute', 'yml-for-yandex-market' )
-		];
-		$schedules['three_hours'] = [
-			'interval' => 10800,
-			'display' => __( 'Every three hours', 'yml-for-yandex-market' )
-		];
-		$schedules['six_hours'] = [
-			'interval' => 21600,
-			'display' => __( 'Every six hours', 'yml-for-yandex-market' )
-		];
-		$schedules['every_two_days'] = [
-			'interval' => 172800,
-			'display' => __( 'Every two days', 'yml-for-yandex-market' )
-		];
-		return $schedules;
-
-	}
-
-	/**
-	 * The function responsible for starting the creation of the feed.
-	 * Function for `y4ym_cron_start_feed_creation` action-hook.
-	 * 
-	 * @param string $feed_id
-	 * 
-	 * @return void
-	 */
-	public function do_start_feed_creation( $feed_id ) {
-
-		new Y4YM_Error_Log( sprintf( 'FEED #%1$s; %2$s; %3$s: %4$s; %5$s: %6$s',
-			$feed_id,
-			__( 'The CRON task for creating a feed has started', 'yml-for-yandex-market' ),
-			__( 'File', 'yml-for-yandex-market' ),
-			'class-y4ym-admin.php',
-			__( 'Line', 'yml-for-yandex-market' ),
-			__LINE__
-		) );
-
-		// счётчик завершенных товаров в положение 0.
-		univ_option_upd(
-			'y4ym_last_element_feed_' . $feed_id,
-			'0',
-			'no'
-		);
-
-		// запланируем CRON сборки
-		$planning_result = self::cron_sborki_task_planning( $feed_id );
-
-		if ( false === $planning_result ) {
-			new Y4YM_Error_Log( sprintf(
-				'FEED #%1$s; ERROR: %2$s `y4ym_cron_sborki`; %3$s: %4$s; %5$s: %6$s',
-				$feed_id,
-				__( 'Failed to schedule a CRON task', 'yml-for-yandex-market' ),
-				__( 'File', 'yml-for-yandex-market' ),
-				'class-y4ym-admin.php',
-				__( 'Line', 'yml-for-yandex-market' ),
-				__LINE__
-			) );
-		} else {
-			new Y4YM_Error_Log( sprintf(
-				'FEED #%1$s; %2$s `y4ym_cron_sborki`; %3$s: %4$s; %5$s: %6$s',
-				$feed_id,
-				__( 'Successful CRON task planning', 'yml-for-yandex-market' ),
-				__( 'File', 'yml-for-yandex-market' ),
-				'class-y4ym-admin.php',
-				__( 'Line', 'yml-for-yandex-market' ),
-				__LINE__
-			) );
-			// сборку начали
-			common_option_upd(
-				'y4ym_status_sborki',
-				'1',
-				'no',
-				$feed_id,
-				'y4ym'
-			);
-			// сразу планируем крон-задачу на начало сброки фида в следующий раз в нужный час
-			$run_cron = common_option_get(
-				'y4ym_run_cron',
-				'disabled',
-				$feed_id,
-				'y4ym'
-			);
-			if ( in_array( $run_cron, [ 'hourly', 'three_hours', 'six_hours', 'twicedaily', 'daily', 'every_two_days', 'weekly' ] ) ) {
-				$arr = wp_get_schedules();
-				if ( isset( $arr[ $run_cron ]['interval'] ) ) {
-					self::cron_starting_feed_creation_task_planning( $feed_id, $arr[ $run_cron ]['interval'] );
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * The function is called every minute until the feed is created or creation is interrupted.
-	 * Function for `y4ym_cron_sborki` action-hook.
-	 * 
-	 * @param string $feed_id
-	 * 
-	 * @return void
-	 */
-	public function do_it_every_minute( $feed_id ) {
-
-		new Y4YM_Error_Log( sprintf( 'FEED #%1$s; %2$s `y4ym_cron_sborki`; %3$s: %4$s; %5$s: %6$s',
-			$feed_id,
-			__( 'The CRON task started', 'yml-for-yandex-market' ),
-			__( 'File', 'yml-for-yandex-market' ),
-			'class-y4ym-admin.php',
-			__( 'Line', 'yml-for-yandex-market' ),
-			__LINE__
-		) );
-
-		$generation = new Y4YM_Generation_XML( $feed_id );
-		$generation->run();
-
-	}
-
-	/**
-	 * Cron starting the feed creation task planning.
-	 * 
-	 * @param string $feed_id
-	 * @param int $delay_second Scheduling task CRON in N seconds.
-	 * 
-	 * @return bool|WP_Error
-	 */
-	public static function cron_starting_feed_creation_task_planning( $feed_id, $delay_second = 0 ) {
-
-		$planning_result = false;
-		$run_cron = common_option_get(
-			'y4ym_run_cron',
-			'disabled',
-			$feed_id,
-			'y4ym'
-		);
-
-		if ( $run_cron === 'disabled' ) {
-			// останавливаем сборку досрочно, если это выбрано в настройках плагина при сохранении
-			wp_clear_scheduled_hook( 'y4ym_cron_start_feed_creation', [ $feed_id ] );
-			wp_clear_scheduled_hook( 'y4ym_cron_sborki', [ $feed_id ] );
-			univ_option_upd(
-				'y4ym_last_element_feed_' . $feed_id,
-				0
-			);
-			common_option_upd(
-				'y4ym_status_sborki',
-				'-1',
-				'no',
-				$feed_id,
-				'y4ym'
-			);
-		} else {
-			wp_clear_scheduled_hook( 'y4ym_cron_start_feed_creation', [ $feed_id ] );
-			if ( ! wp_next_scheduled( 'y4ym_cron_start_feed_creation', [ $feed_id ] ) ) {
-				$cron_start_time = common_option_get(
-					'y4ym_cron_start_time',
-					'disabled',
-					$feed_id,
-					'y4ym'
-				);
-				switch ( $cron_start_time ) {
-					case 'disabled':
-						return false;
-					case 'now':
-						$cron_interval = current_time( 'timestamp', 1 ) + 2; // добавим 2 сек
-						break;
-					default:
-						$gmt_offset = (float) get_option( 'gmt_offset' );
-						$offset_in_seconds = $gmt_offset * 3600;
-						$cron_interval = strtotime( $cron_start_time ) - $offset_in_seconds;
-						if ( $cron_interval < current_time( 'timestamp', 1 ) ) {
-							// если нужный час уже прошел. запланируем на следующие сутки
-							$cron_interval = $cron_interval + 86400;
-						}
-				}
-
-				// планируем крон-задачу на начало сброки фида в нужный час
-				$planning_result = wp_schedule_single_event(
-					$cron_interval + $delay_second,
-					'y4ym_cron_start_feed_creation',
-					[ $feed_id ]
-				);
-			}
-		}
-
-		return $planning_result;
-
-	}
-
-	/**
-	 * Cron sborki task planning.
-	 * 
-	 * @param string $feed_id
-	 * @param int $delay_second Scheduling task CRON in N seconds.
-	 * 
-	 * @return bool|WP_Error
-	 */
-	public static function cron_sborki_task_planning( $feed_id, $delay_second = 5 ) {
-
-		wp_clear_scheduled_hook( 'y4ym_cron_sborki', [ $feed_id ] );
-		if ( ! wp_next_scheduled( 'y4ym_cron_sborki', [ $feed_id ] ) ) {
-			$planning_result = wp_schedule_single_event(
-				current_time( 'timestamp', 1 ) + $delay_second, // добавим 5 секунд
-				'y4ym_cron_sborki',
-				[ $feed_id ]
-			);
-		} else {
-			$planning_result = false;
-		}
-
-		return $planning_result;
-
-	}
-
-	/**
 	 * Add new taxonomy.
 	 * 
 	 * @return void
@@ -1558,6 +1335,9 @@ class Y4YM_Admin {
 						'VAT_20' => '20% (VAT_20)',
 						'VAT_20_120' => '20/120 VAT_20_120)',
 						'VAT_22' => '22% (VAT_22)',
+						'vat22' => sprintf( '22%% (vat22) (%s)',
+							__( 'Use it only if VAT_22 failed', 'yml-for-yandex-market' )
+						),
 						'VAT_22_120' => '22/120 VAT_22_120)'
 					],
 					'description' => sprintf( '%s <strong>vat</strong>. <a target="_blank" href="%s">%s</a>',
@@ -2160,7 +1940,7 @@ class Y4YM_Admin {
 			$post_meta_arr
 		);
 		$this->save_post_meta( $post_meta_arr, $post_id );
-		$this->run_feeds_upd( $post_id );
+		Y4YM_Feed_Updater::run_feeds_upd( $post_id );
 
 	}
 
@@ -2250,164 +2030,6 @@ class Y4YM_Admin {
 			update_post_meta( $post_id, '_yfym_barcode', esc_attr( $woocommerce__yfym_barcode ) );
 		} else {
 			update_post_meta( $post_id, '_yfym_barcode', '' );
-		}
-
-	}
-
-	/**
-	 * Проверяет, нужно ли запускать обновление фида при обновлении товара и при необходимости запускает процесс.
-	 * 
-	 * @param int $post_id
-	 * 
-	 * @return void
-	 */
-	public function run_feeds_upd( $post_id ) {
-
-		$settings_arr = univ_option_get( 'y4ym_settings_arr' );
-		$settings_arr_keys_arr = array_keys( $settings_arr );
-		for ( $i = 0; $i < count( $settings_arr_keys_arr ); $i++ ) {
-
-			$feed_id = (string) $settings_arr_keys_arr[ $i ]; // ! для правильности работы важен тип string
-			$run_cron = common_option_get(
-				'y4ym_run_cron',
-				'disabled',
-				$feed_id,
-				'y4ym'
-			);
-			$ufup = common_option_get(
-				'y4ym_ufup',
-				'disabled',
-				$feed_id,
-				'y4ym'
-			);
-			if ( $run_cron === 'disabled' || $ufup === 'disabled' ) {
-				new Y4YM_Error_Log( sprintf(
-					'FEED #%1$s; INFO: %2$s ($run_cron = %3$s; $ufup = %4$s); %5$s: %6$s; %7$s: %8$s',
-					$feed_id,
-					__(
-						'Creating a cache file is not required for this type',
-						'yml-for-yandex-market'
-					),
-					$run_cron,
-					$ufup,
-					__( 'File', 'yml-for-yandex-market' ),
-					'class-y4ym-admin.php',
-					__( 'Line', 'yml-for-yandex-market' ),
-					__LINE__
-				) );
-				continue;
-			}
-
-			$do_cash_file = common_option_get(
-				'y4ym_do_cash_file',
-				'enabled',
-				$feed_id, 'y4ym'
-			);
-			if ( $do_cash_file === 'enabled' || $ufup === 'enabled' ) {
-				// если в настройках включено создание кэш-файлов в момент сохранения товара
-				// или нужно запускать обновление фида при перезаписи файла
-				$result_get_unit_obj = new Y4YM_Get_Unit( $post_id, $feed_id );
-				$result_xml = $result_get_unit_obj->get_result();
-				// Remove hex and control characters from PHP string
-				$result_xml = y4ym_remove_special_characters( $result_xml );
-				new Y4YM_Write_File(
-					$result_xml,
-					sprintf( '%s.tmp', $post_id ),
-					$feed_id
-				);
-			}
-
-			// нужно ли запускать обновление фида при перезаписи файла
-			if ( $ufup === 'enabled' ) {
-				$status_sborki = (int) common_option_get(
-					'y4ym_status_sborki',
-					-1,
-					$feed_id,
-					'y4ym'
-				);
-				if ( $status_sborki === -1 ) {
-					new Y4YM_Error_Log( sprintf(
-						'FEED #%1$s; INFO: %2$s ($i = %3$s; $ufup = %4$s); %5$s: %6$s; %7$s: %8$s',
-						$feed_id,
-						__(
-							'Starting a quick feed build',
-							'yml-for-yandex-market'
-						),
-						$i,
-						$ufup,
-						__( 'File', 'yml-for-yandex-market' ),
-						'class-y4ym-admin.php',
-						__( 'Line', 'yml-for-yandex-market' ),
-						__LINE__
-					) );
-					clearstatcache(); // очищаем кэш дат файлов
-					$generation = new Y4YM_Generation_XML( $feed_id );
-					$generation->quick_generation();
-				}
-			}
-
-		} // end for
-
-	}
-
-	/**
-	 * Fires when stock reduced to a specific line item.
-	 * 
-	 * Function for `woocommerce_reduce_order_item_stock` action-hook.
-	 * 
-	 * @param WC_Order_Item_Product $item Order item data.
-	 * @param array $change  Change Details.
-	 * @param WC_Order $order  Order data.
-	 *
-	 * @return void
-	 */
-	public function check_update_feed_stock_change( $item, $change, $order ) {
-
-		$settings_arr = univ_option_get( 'y4ym_settings_arr' );
-		$settings_arr_keys_arr = array_keys( $settings_arr );
-		for ( $i = 0; $i < count( $settings_arr_keys_arr ); $i++ ) {
-
-			$feed_id = (string) $settings_arr_keys_arr[ $i ]; // ! для правильности работы важен тип string
-			$run_cron = common_option_get(
-				'y4ym_run_cron',
-				'disabled',
-				$feed_id,
-				'y4ym'
-			);
-			$upd_feed_after_stock_change = common_option_get(
-				'y4ym_upd_feed_after_stock_change',
-				'disabled',
-				$feed_id,
-				'y4ym'
-			);
-			if ( $run_cron === 'disabled' || $upd_feed_after_stock_change === 'disabled' ) {
-				continue;
-			}
-			if ( $upd_feed_after_stock_change === 'enabled' ) {
-				$status_sborki = (int) common_option_get(
-					'y4ym_status_sborki',
-					-1,
-					$feed_id,
-					'y4ym'
-				);
-				if ( $status_sborki === -1 ) {
-					$planning_result = self::cron_starting_feed_creation_task_planning( $feed_id );
-					if ( true === $planning_result ) {
-						new Y4YM_Error_Log( sprintf( 'FEED #%1$s; %2$s; %3$s: %4$s; %5$s: %6$s',
-							$feed_id,
-							__(
-								'After changing the stock product the task of creating the feed has been queued for completion',
-								'yml-for-yandex-market'
-							),
-							__( 'File', 'yml-for-yandex-market' ),
-							'class-y4ym-admin.php',
-							__( 'Line', 'yml-for-yandex-market' ),
-							__LINE__
-						) );
-					}
-				}
-			}
-
 		}
 
 	}

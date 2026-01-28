@@ -46,7 +46,7 @@
 				<p class="aio-login-pro__first-step__content">To protect your website from spam and bots, start by adding Google reCAPTCHA to your WordPress login page. First, register your site to generate your Site Key and Secret Key. After getting the keys, continue the setup to secure your site.</p>
 				<h5 class="aio-login-pro__first-step__instruction">Instruction:</h5>
 				<p class="aio-login-pro__first-step__instructions">1. Register your site and get the keys → <a href="https://www.google.com/recaptcha/admin" target="_blank" class="aio-login-pro__first-step__doc-link">Click Here</a></p>
-				<p class="aio-login-pro__first-step__instructions">2. Need help creating keys? → <a href="https://developers.google.com/recaptcha/docs/start" target="_blank" class="aio-login-pro__first-step__doc-link">Click Here</a></p>
+				<p class="aio-login-pro__first-step__instructions">2. Need help creating keys? → <a href="https://aiologin.com/docs/wordpress-login-security/setting-up-google-recaptcha/" target="_blank" class="aio-login-pro__first-step__doc-link">Click Here</a></p>
 				<p class="aio-login-pro__first-step__next-step-note">3. After getting the Google reCAPTCHA Site Key and Secret Key, click Next to input these credentials.</p>
 			</div>
 
@@ -79,6 +79,7 @@
 								class="aio-login-pro__form-input"
 								:class="{ 'aio-login-pro__error': showValidationError && !formData.siteKey.trim() }"
 								placeholder="Enter Site Key"
+								autocomplete="off"
 							/>
 							<button v-if="formData.siteKey" @click="clearField('siteKey')" class="clear-btn">×</button>
 						</div>
@@ -101,6 +102,7 @@
 								class="aio-login-pro__form-input"
 								:class="{ 'aio-login-pro__error': showValidationError && !formData.secretKey.trim() }"
 								placeholder="Enter Secret Key"
+								autocomplete="new-password"
 							/>
 							<button v-if="formData.secretKey" @click="clearField('secretKey')" class="clear-btn">×</button>
 						</div>
@@ -318,6 +320,7 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+	margin-top: 40px;
 }
 
 .popup-footer-left {

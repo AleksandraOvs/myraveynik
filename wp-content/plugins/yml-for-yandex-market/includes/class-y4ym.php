@@ -8,7 +8,7 @@
  *
  * @link       https://icopydoc.ru
  * @since      0.1.0
- * @version    5.0.25 (15-12-2025)
+ * @version    5.1.0 (27-01-2026)
  *
  * @package    Y4YM
  * @subpackage Y4YM/includes
@@ -50,6 +50,15 @@ class Y4YM {
 	protected $plugin_name;
 
 	/**
+	 * Container for core service objects.
+	 *
+	 * @since 5.1.0
+	 * @access protected
+	 * @var array $services Holds instances of core functionality objects.
+	 */
+	protected $services = [];
+
+	/**
 	 * The current version of the plugin.
 	 *
 	 * @since 0.1.0
@@ -79,7 +88,8 @@ class Y4YM {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
-		$this->define_public_hooks();
+		// ! $this->define_public_hooks(); - отключил
+		$this->define_core_hooks();
 
 	}
 
@@ -111,6 +121,7 @@ class Y4YM {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/feeds/class-y4ym-generation-xml.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/feeds/class-y4ym-write-file.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/feeds/class-yfym-feed-file-meta.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/feeds/class-yfym-feed-updater.php';
 
 		/**
 		 * Adding third-party libraries.
@@ -158,6 +169,11 @@ class Y4YM {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-y4ym-data.php';
 
 		/**
+		 * This class manages the CRON tasks of generating the YML feed.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/cron/class-yfym-cron-manager.php';
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -186,6 +202,9 @@ class Y4YM {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-y4ym-public.php';
 
 		$this->loader = new Y4YM_Loader();
+
+		$this->services['cron_manager'] = new Y4YM_Cron_Manager();
+		$this->services['feed_updater'] = new Y4YM_Feed_Updater();
 
 	}
 
@@ -243,9 +262,6 @@ class Y4YM {
 		$this->loader->add_action( 'woocommerce_product_after_variable_attributes', $plugin_admin, 'add_fields_to_variable_settings', 10, 3 );
 		$this->loader->add_action( 'woocommerce_save_product_variation', $plugin_admin, 'save_variation_product_post_meta', 10, 2 );
 
-		// слушаем изменение количества товаров в заказе
-		$this->loader->add_action( 'woocommerce_reduce_order_item_stock', $plugin_admin, 'check_update_feed_stock_change', 50, 3 );
-
 		// печатаем скрипты в футере админки
 		$this->loader->add_action(
 			'admin_footer',
@@ -287,15 +303,6 @@ class Y4YM {
 		// Разрешим загрузку xml и csv файлов
 		$this->loader->add_action( 'upload_mimes', $plugin_admin, 'add_mime_types' );
 
-		// Add cron intervals to WordPress
-		$this->loader->add_action( 'cron_schedules', $plugin_admin, 'add_cron_intervals' );
-
-		// этот крон срабатывает в момент запуска генерации фида с нуля
-		$this->loader->add_action( 'y4ym_cron_start_feed_creation', $plugin_admin, 'do_start_feed_creation' );
-
-		// этот крон срабатывает в процессе генерации фида. вызывает кроном y4ym_cron_start_feed_creation
-		$this->loader->add_action( 'y4ym_cron_sborki', $plugin_admin, 'do_it_every_minute' );
-
 	}
 
 	/**
@@ -313,6 +320,34 @@ class Y4YM {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+	}
+
+	/**
+	 * Register hooks that are related to core functionality, but not tied 
+	 * to admin or public-facing logic.
+	 * 
+	 * @since 0.1.0
+	 * @access private
+	 * 
+	 * @return void
+	 */
+	private function define_core_hooks() {
+
+		$cron_manager = $this->services['cron_manager'];
+		$feed_updater = $this->services['feed_updater'];
+
+		// Add cron intervals to WordPress
+		$this->loader->add_action( 'cron_schedules', $cron_manager, 'add_cron_intervals' );
+
+		// этот крон срабатывает в момент запуска генерации фида с нуля
+		$this->loader->add_action( 'y4ym_cron_start_feed_creation', $cron_manager, 'do_start_feed_creation' );
+
+		// этот крон срабатывает в процессе генерации фида. вызывает кроном y4ym_cron_start_feed_creation
+		$this->loader->add_action( 'y4ym_cron_sborki', $cron_manager, 'do_it_every_minute' );
+
+		// слушаем изменение количества товаров в заказе
+		$this->loader->add_action( 'woocommerce_reduce_order_item_stock', $feed_updater, 'check_update_feed_stock_change', 50, 3 );
 
 	}
 

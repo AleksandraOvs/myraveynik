@@ -5,7 +5,7 @@
  *
  * @link       https://icopydoc.ru
  * @since      0.1.0
- * @version    5.0.26 (24-12-2025)
+ * @version    5.1.0 (27-01-2026)
  *
  * @package    Y4YM
  * @subpackage Y4YM/includes
@@ -36,6 +36,79 @@ class Y4YM_Data {
 	public function __construct( $data_arr = [] ) {
 
 		if ( empty( $data_arr ) ) {
+
+			$vendor_souce_arr = [
+				[
+					'value' => 'disabled',
+					'text' => __( 'Disabled', 'yml-for-yandex-market' )
+				],
+				[
+					'value' => 'woocommerce_brands',
+					'text' => __( 'WooCommerce brands', 'yml-for-yandex-market' )
+				],
+				[
+					'value' => 'post_meta',
+					'text' => __( 'Substitute from post meta', 'yml-for-yandex-market' )
+				],
+				[
+					'value' => 'default_value',
+					'text' => sprintf( '%s "%s"',
+						__( 'Default value from field', 'yml-for-yandex-market' ),
+						__( 'Default value', 'yml-for-yandex-market' )
+					)
+				]
+			];
+			if ( is_plugin_active( 'perfect-woocommerce-brands/perfect-woocommerce-brands.php' )
+				|| is_plugin_active( 'perfect-woocommerce-brands/main.php' )
+				|| class_exists( 'Perfect_Woocommerce_Brands' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'sfpwb',
+					'text' => sprintf( '%s "Perfect Woocommerce Brands"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+			if ( is_plugin_active( 'saphali-custom-brands-pro/saphali-custom-brands-pro.php' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'saphali_brands',
+					'text' => sprintf( '%s "Saphali Custom Brands Pro"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+			if ( is_plugin_active( 'premmerce-woocommerce-brands/premmerce-brands.php' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'premmercebrandsplugin',
+					'text' => sprintf( '%s "Premmerce Brands for WooCommerce"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+			if ( is_plugin_active( 'woocommerce-brands/woocommerce-brands.php' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'plugin_woocommerce_brands',
+					'text' => sprintf( '%s "Perfect Woocommerce Brands"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+			if ( class_exists( 'woo_brands' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'woo_brands',
+					'text' => sprintf( '%s "Woocomerce Brands Pro"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+			if ( is_plugin_active( 'yith-woocommerce-brands-add-on/init.php' ) ) {
+				$vendor_souce_arr[] = [
+					'value' => 'yith_woocommerce_brands_add_on',
+					'text' => sprintf( '%s "YITH WooCommerce Brands Add-On"',
+						__( 'Substitute from', 'yml-for-yandex-market' )
+					)
+				];
+			}
+
 			$this->data_arr = [
 				[
 					'opt_name' => 'y4ym_status_sborki',
@@ -1467,27 +1540,7 @@ class Y4YM_Data {
 						'desc' => __( 'Vendor', 'yml-for-yandex-market' ),
 						'woo_attr' => true,
 						'default_value' => true,
-						'key_value_arr' => [
-							[
-								'value' => 'disabled',
-								'text' => __( 'Disabled', 'yml-for-yandex-market' )
-							],
-							[
-								'value' => 'woocommerce_brands',
-								'text' => __( 'WooCommerce brands', 'yml-for-yandex-market' )
-							],
-							[
-								'value' => 'post_meta',
-								'text' => __( 'Substitute from post meta', 'yml-for-yandex-market' )
-							],
-							[
-								'value' => 'default_value',
-								'text' => sprintf( '%s "%s"',
-									__( 'Default value from field', 'yml-for-yandex-market' ),
-									__( 'Default value', 'yml-for-yandex-market' )
-								)
-							]
-						],
+						'key_value_arr' => $vendor_souce_arr,
 						'tag_name' => 'vendor'
 					]
 				],
@@ -1896,6 +1949,15 @@ class Y4YM_Data {
 							[ 'value' => 'VAT_20', 'text' => '20% (VAT_20)' ],
 							[ 'value' => 'VAT_20_120', 'text' => '20/120 (VAT_20_120)' ],
 							[ 'value' => 'VAT_22', 'text' => '22% (VAT_22)' ],
+							[
+								'value' => 'vat22',
+								'text' => sprintf( '22%% (vat22) (%s)',
+									__(
+										'Use it only if VAT_22 failed',
+										'yml-for-yandex-market'
+									)
+								)
+							],
 							[ 'value' => 'VAT_22_120', 'text' => '22/120 (VAT_22_120)' ]
 						],
 						'tag_name' => 'vat'

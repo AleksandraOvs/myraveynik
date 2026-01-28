@@ -4,7 +4,7 @@ Donate link: https://pay.cloudtips.ru/p/45d8ff3f
 Tags: yml, yandex, market, export, woocommerce
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 5.0.26
+Stable tag: 5.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,13 @@ After 1-7 minutes (depending on the number of products), the feed will be genera
 1. screenshot-1.png
 
 == Changelog ==
+
+= 5.1.0 =
+*Release Date 27-01-2026*
+
+* Improved support VAT 22%.
+* Added compatibility with plugins: `Perfect Woocommerce Brands`, `Saphali Custom Brands Pro`, `Premmerce Brands for WooCommerce`, `Woocomerce Brands Pro`, `YITH WooCommerce Brands Add-On`.
+* Code refactoring.
 
 = 5.0.26 =
 *Release Date 24-12-2025*
@@ -235,9 +242,9 @@ After 1-7 minutes (depending on the number of products), the feed will be genera
 
 == Upgrade Notice ==
 
-= 5.0.26 =
-*Release Date 24-12-2025*
+= 5.1.0 =
+*Release Date 27-01-2026*
 
-* Added support VAT 22%.
-* Improved the mechanism for generating tags `price` and `oldprice'.
-* Fixed a security bug.
+* Improved support VAT 22%.
+* Added compatibility with plugins: `Perfect Woocommerce Brands`, `Saphali Custom Brands Pro`, `Premmerce Brands for WooCommerce`, `Woocomerce Brands Pro`, `YITH WooCommerce Brands Add-On`.
+* Code refactoring.

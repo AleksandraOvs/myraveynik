@@ -41,6 +41,7 @@
 					        name="aio_login_limit_attempts_maximum_attempts"
 					        v-model="form_data.maximum_attempts"
 					        type="number"
+							min="1"
 							class="regular-text"
 						/>
 					</td>
@@ -57,6 +58,7 @@
 							name="aio_login_limit_attempts_timeout"
 							v-model="form_data.timeout"
 							type="number"
+							min="1"
 							class="regular-text"
 						/>
 					</td>

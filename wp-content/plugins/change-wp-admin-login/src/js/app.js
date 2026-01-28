@@ -42,6 +42,19 @@
 
 	aio_login__object.pages.forEach( function( page ) {
 		if ( null == page['sub-tabs'] ) {
+			// Handle main tabs without sub-tabs (like integrations, social-login, temp-access)
+			if ( ! window.aio_login__object.routes.length ) {
+				window.aio_login__object.routes.push( {
+					path: '/',
+					redirect: to => ( {
+						path: '/' + page.slug,
+					} ),
+				} );
+			}
+			window.aio_login__object.routes.push( {
+				path: '/' + page.slug,
+				my_slug: page.slug,
+			} );
 			return;
 		}
 
@@ -93,7 +106,7 @@
 				window.aio_login__object.routes[i].component = require( './pages/failed-logins.vue' ).default;
 			}
 
-			if ( 'grecaptcha' === route.my_slug ) {
+			if ( 'captcha' === route.my_slug ) {
 				window.aio_login__object.routes[i].component = require( './pages/grecaptcha.vue' ).default;
 			}
 
@@ -119,6 +132,10 @@
 
 			if ( 'social-login' === route.my_slug ) {
 				window.aio_login__object.routes[i].component = require( './pages/social-login.vue' ).default;
+			}
+
+			if ( 'integrations' === route.my_slug ) {
+				window.aio_login__object.routes[i].component = require( './pages/integrations.vue' ).default;
 			}
 
 			if ( 'user-enumeration-protection' === route.my_slug ) {
@@ -152,8 +169,10 @@
 			aio_login_active_menu(7);
 		} else if ('customization' === tab) {
 			aio_login_active_menu(8);
-		} else if ('getpro' === tab) {
+		} else if ('integrations' === tab) {
 			aio_login_active_menu(9);
+		} else if ('getpro' === tab) {
+			aio_login_active_menu(10);
 		} else {
 			aio_login_active_menu(2);
 		}

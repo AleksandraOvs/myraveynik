@@ -1,10 +1,5 @@
 <template>
-	<div v-if="page_loaded" class="aio-login-t-wrapper">
-		<div>
-			<h3>Captcha Settings</h3>
-		</div>
-		<div class="aio-login-pro__social-login">
-			<div class="aio-login-pro__social-login__card">
+	<div v-if="page_loaded" class="aio-login-pro__social-login__card">
 				<!-- Configured Tag -->
 				<div 
 					v-if="statusBadge" 
@@ -41,8 +36,6 @@
 						Configure
 					</button>
 				</div>
-			</div>
-		</div>
 
 		<!-- Multi-step Popup -->
 		<aio-login-recaptcha-popup
@@ -155,19 +148,6 @@ export default {
 
 <style scoped>
 /* Exact copy of social login pro card styling */
-.aio-login-t-wrapper {
-	position: relative;
-}
-
-.aio-login-t-content-overflow {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	backdrop-filter: blur(1px);
-}
-
 .configured-tag {
   position: absolute !important;
   top: 8px !important;

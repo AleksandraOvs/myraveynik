@@ -40,6 +40,8 @@ if ( ! class_exists( 'CF7Apps_Entries_App' ) && class_exists( 'CF7Apps_App' ) ) 
 			add_action( 'admin_init', array( $this, 'create_table' ) );
 			add_action( 'wpcf7_mail_sent', array( $this, 'save_form_information' ), 10, 1 );
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+			// Automatically remove stored entries when a Contact Form 7 form is permanently deleted.
+			add_action( 'before_delete_post', array( $this, 'delete_entries_on_form_delete' ) );
 		}
 
 		/**
@@ -48,30 +50,44 @@ if ( ! class_exists( 'CF7Apps_Entries_App' ) && class_exists( 'CF7Apps_App' ) ) 
 		 * @since 3.1.0
 		 */
 		public function create_table() {
-			if ( current_user_can( 'manage_options') && $this->get_option( 'is_enabled') ) {
-				$installed_version   = get_option( 'cf7_entries_version' );
-				$required_version    = '1.0.0';
+			// Only attempt creation for admins when the Entries app is enabled.
+			if ( ! current_user_can( 'manage_options' ) || ! $this->get_option( 'is_enabled' ) ) {
+				return;
+			}
 
-				if ( $installed_version !== $required_version ) {
-					global $wpdb;
-					$table_name = $wpdb->prefix . 'cf7apps_form_entries';
-					$charset_collate = $wpdb->get_charset_collate();
+			global $wpdb;
 
-					$sql = "CREATE TABLE $table_name (
-    					id INT AUTO_INCREMENT,
-    					form_id INT NOT NULL,
-    					form_name VARCHAR(155) NOT NULL,
-    					email VARCHAR(155) DEFAULT NULL,
-    					date_time VARCHAR(155) NOT NULL,
-    					data LONGTEXT NOT NULL,
-    					PRIMARY KEY  (id)
-					) $charset_collate;";
+			$table_name       = $wpdb->prefix . 'cf7apps_form_entries';
+			$charset_collate  = $wpdb->get_charset_collate();
+			$installed_version = get_option( 'cf7_entries_version' );
+			$required_version  = '1.0.0';
 
-					require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-					dbDelta( $sql );
+			// Check if the table actually exists in the database.
+			$table_exists = $wpdb->get_var(
+				$wpdb->prepare(
+					'SHOW TABLES LIKE %s',
+					$table_name
+				)
+			);
 
-					update_option( 'cf7_entries_version', $required_version );
-				}
+			// (Re)create the table when:
+			// - the stored version differs from the required version, OR
+			// - the table is missing (e.g. after a manual drop).
+			if ( $installed_version !== $required_version || $table_exists !== $table_name ) {
+				$sql = "CREATE TABLE $table_name (
+					id INT AUTO_INCREMENT,
+					form_id INT NOT NULL,
+					form_name VARCHAR(155) NOT NULL,
+					email VARCHAR(155) DEFAULT NULL,
+					date_time VARCHAR(155) NOT NULL,
+					data LONGTEXT NOT NULL,
+					PRIMARY KEY  (id)
+				) $charset_collate;";
+
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+				dbDelta( $sql );
+
+				update_option( 'cf7_entries_version', $required_version );
 			}
 		}
 
@@ -127,6 +143,34 @@ if ( ! class_exists( 'CF7Apps_Entries_App' ) && class_exists( 'CF7Apps_App' ) ) 
 		}
 
 		/**
+		 * Delete all saved entries when a Contact Form 7 form is permanently deleted.
+		 *
+		 * Runs on the core `before_delete_post` hook.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param int $post_id Post ID being deleted.
+		 * @return void
+		 */
+		public function delete_entries_on_form_delete( $post_id ) {
+			// Only act for Contact Form 7 forms.
+			if ( get_post_type( $post_id ) !== 'wpcf7_contact_form' ) {
+				return;
+			}
+
+			// Only run if Entries app is enabled.
+			if ( ! $this->get_option( 'is_enabled' ) ) {
+				return;
+			}
+
+			if ( ! class_exists( 'CF7Apps_Form_Entries' ) ) {
+				return;
+			}
+
+			CF7Apps_Form_Entries::delete_entries_by_form_id( $post_id );
+		}
+
+		/**
 		 * Get the app settings.
 		 *
 		 * @since 3.1.0
@@ -138,7 +182,7 @@ if ( ! class_exists( 'CF7Apps_Entries_App' ) && class_exists( 'CF7Apps_App' ) ) 
 					'fields' => array(
 						'general' => array(
 							'title'       => __( 'Entries Settings', 'cf7apps' ),
-							'description' => __( 'Access and manage all Contact Form 7 submissions in a centralized database with filtering and export options.', 'cf7apps' ),
+							'description' => __( '', 'cf7apps' ),
 
                             'notice'           => array(
                                 'type'  => 'notice',
