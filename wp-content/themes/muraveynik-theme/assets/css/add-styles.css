@@ -240,6 +240,11 @@
     display: none;
 }
 
+.partners__list ul.slick-dots {
+    justify-content: center;
+    width: 100%;
+}
+
 .section__inner {
     display: grid;
     grid-template-columns: 40% 60%;
