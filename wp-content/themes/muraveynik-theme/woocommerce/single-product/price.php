@@ -30,11 +30,6 @@ global $product;
 			?>
 			<a class="button-instock" href="<?php the_permalink() ?>">В наличии</a>
 			<?php
-		} elseif ($product->is_on_backorder()){
-			?>
-			<h1>pre-order</h1>
-			<!-- <a class="button-onbackorder" href="<?php //the_permalink() ?>">Предзаказ</a> -->
-			<?php
 		} else {
 			?>
 			<a class="button-notinstock" href="<?php the_permalink() ?>">Нет в наличии</a>

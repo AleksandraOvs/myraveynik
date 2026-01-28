@@ -156,10 +156,10 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 						</div>		
 			</div><!-- ./product-item__actions__inner -->
 			</div>
-			<?php }elseif ($product->is_on_backorder() ) {
+			<?php }else {
 					?>
-				<div class="backgrorder-button__inner">
-					<span class="button unstock-button">Предзаказ</span>
+				<div class="unstock-button__inner">
+					<span class="button unstock-button">В корзину</span>
 				</div>
 	<?php
 				}?>

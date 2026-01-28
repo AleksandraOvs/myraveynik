@@ -49,21 +49,32 @@ do_action( 'woocommerce_before_single_product' );
 					<p class="product-attrs__list__item__name">Артикул:</p>
 					<p> <?php echo ( $sku = $product->get_sku() ) ? $sku : esc_html__( 'N/A', 'woocommerce' ); ?></p>
 				</li>
+				
+				<?php
+					foreach ( $attributes as $attribute ) :
+						if ( empty( $attribute['is_visible'] ) || ( $attribute['is_taxonomy'] && ! taxonomy_exists( $attribute['name'] ) ) ) {
+							continue;
+					} else {
+						$has_row = true;
+					}
+					//  if ( ( $alt = $alt * -1 ) == 1 ) echo 'alt'; ?>
+					<li class="product-attrs__list__item">
+						<p class="product-attrs__list__item__name">
+							<?php echo wc_attribute_label( $attribute['name'] ) . ':'; ?>
+						</p>
+				<?php
+					if ( $attribute['is_taxonomy'] ) {
+						$values = wc_get_product_terms( $product->id, $attribute['name'], array( 'fields' => 'names' ) );
+							echo apply_filters( 'woocommerce_attribute', wpautop( wptexturize( implode( ', ', $values ) ) ), $attribute, $values );
+					} else {
 
-				<li class="product-attrs__list__item">
-					<p class="product-attrs__list__item__name"><?php the_field('product__key-1'); ?></p>
-					<p> <?php the_field('product__value-1'); ?></p>
-				</li>
-
-				<li class="product-attrs__list__item">
-					<p class="product-attrs__list__item__name"><?php the_field('product__key-2'); ?></p>
-					<p> <?php the_field('product__value-2'); ?></p>
-				</li>
-
-				<li class="product-attrs__list__item">
-					<p class="product-attrs__list__item__name"><?php the_field('product__key-3'); ?></p>
-					<p> <?php the_field('product__value-3'); ?></p>
-				</li>
+					// Convert pipes to commas and display values
+					$values = array_map( 'trim', explode( WC_DELIMITER, $attribute['value'] ) );
+						echo apply_filters( 'woocommerce_attribute', wpautop( wptexturize( implode( ', ', $values ) ) ), $attribute, $values );
+					}
+				?>
+					</li>	
+					<?php endforeach; ?>
 			</ul>
 			
 			<?php if ($forclients = carbon_get_theme_option('crb_for_clients')){ ?>
@@ -83,48 +94,6 @@ do_action( 'woocommerce_before_single_product' );
 			<?php
  			}
 			?>
-
-
-
-
-<!-- <div class="tabs__items tabs__items--product tabs__items--product--normal">
-					<h2>Характеристики</h2>
-					<table>
-						<tr>
-							<td><?php //the_field('product__key-1'); ?></td>
-							<td><?php //the_field('product__value-1'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-2'); ?></td>
-							<td><?php //the_field('product__value-2'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-3'); ?></td>
-							<td><?php //the_field('product__value-3'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-4'); ?></td>
-							<td><?php //the_field('product__value-4'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-5'); ?></td>
-							<td><?php //the_field('product__value-5'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-6'); ?></td>
-							<td><?php //the_field('product__value-6'); ?></td>
-						</tr>
-						<tr>
-							<td><?php //the_field('product__key-7'); ?></td>
-							<td><?php //the_field('product__value-7'); ?></td>
-						</tr>
-					</table>
-				</div> -->
-
-
-
-
-
 		</div>
 		
 

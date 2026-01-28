@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php else : ?>
 
-		<h3>Спасибо за заказ!</h3>
+		<h3 style="font-size: 4.8rem; font-weight: 500;">Спасибо за заказ! </h3>
 		<p class="thankyou-desc">Ваша заявка принята в обработку. Наш менеджер свяжется с  Вами  ближайшее время!</p>
 		<a class="thankyou-button button" href="<?php echo site_url() ?>" class="button">Вернуться на главную</a>
 		
