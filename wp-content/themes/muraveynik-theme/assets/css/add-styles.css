@@ -235,7 +235,8 @@
     height: 100%;
 }
 
-.faq-slider button {
+.faq-slider button,
+.partners__list button {
     display: none;
 }
 
@@ -437,11 +438,13 @@
         height: 100%;
     }
 
-    .faq-slider .slick-dots {
+    .faq-slider .slick-dots,
+    .partners__list ul.slick-dots {
         margin-top: 30px;
     }
 
-    .faq-slider .slick-dots li {
+    .faq-slider .slick-dots li,
+    .partners__list ul.slick-dots li {
         position: relative;
         width: 7px;
         height: 7px;
