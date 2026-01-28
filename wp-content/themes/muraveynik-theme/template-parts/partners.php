@@ -22,7 +22,7 @@ $partners    = carbon_get_post_meta(get_the_ID(), 'crb_partners_list');
             <?php endif; ?>
 
             <?php if ($partners) : ?>
-                <div class="partners__list">
+                <div class="partners__list js-partners-slider">
 
                     <?php foreach ($partners as $item) :
                         $img_id = $item['partners_list_item_img'] ?? '';
@@ -50,3 +50,32 @@ $partners    = carbon_get_post_meta(get_the_ID(), 'crb_partners_list');
         </div>
     </div>
 </section>
+
+<script>
+    jQuery(function($) {
+        const $slider = $('.js-partners-slider');
+        const items = $slider.children('.partners__item');
+
+        for (let i = 0; i < items.length; i += 8) {
+            items.slice(i, i + 8).wrapAll('<div class="partners-slide"></div>');
+        }
+
+        $slider.slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            dots: true
+        });
+    });
+</script>
+
+<style>
+    .js-partners-slider .slick-slide {
+        height: auto;
+    }
+
+    .js-partners-slider .partners__item {
+        height: 100%;
+        box-sizing: border-box;
+    }
+</style>
