@@ -296,6 +296,10 @@ margin-right: 25px; */
   /* 2 */
 }
 
+.wp-block-media-text.gap1 {
+  gap: 1em;
+}
+
 /**
  * Remove the inner padding in Chrome and Safari on macOS.
  */
