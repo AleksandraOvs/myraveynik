@@ -19,7 +19,7 @@
 
                 if ($btn_price = carbon_get_theme_option('crb_hero_button_price')) {
                 ?>
-                    <a class="button white" target="_blank" href=" <?php echo $btn_price ?> ">Скачать прайс</a>
+                    <a class="button white" target="_blank" href="<?php echo $btn_price ?> ">Скачать прайс</a>
                 <?php
                 }
                 ?>
