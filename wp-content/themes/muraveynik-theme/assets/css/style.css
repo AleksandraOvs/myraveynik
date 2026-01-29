@@ -1291,6 +1291,11 @@ margin-bottom: 20px;
   color: #23C229;
 }
 
+.section-we-work__steps__item:nth-of-type(5) {
+  border-right: 1px dashed #cacaca;
+  border-bottom: 1px dashed #cacaca;
+}
+
 .section-we-work__steps__item:nth-of-type(2) {
   align-items: stretch;
 }
