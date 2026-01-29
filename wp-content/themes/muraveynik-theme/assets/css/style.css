@@ -2440,6 +2440,10 @@ transition: stroke 0.3s;
     left: 0;
     font-size: 120px;
   }
+
+  .faq-slider .slick-list .slick-track {
+    padding: 0;
+  }
 }
 
 @media (max-width: 480px) {
