@@ -1384,14 +1384,18 @@ margin-bottom: 20px;
 
 .section-we-work__steps__item:nth-of-type(1):before,
 .section-we-work__steps__item:nth-of-type(2):before,
-.section-we-work__steps__item:nth-of-type(3):before,
-.section-we-work__steps__item:nth-of-type(5):before {
+.section-we-work__steps__item:nth-of-type(3):before {
   top: 3.8rem;
   left: -6px;
   width: 12px;
   height: 12px;
   background-color: #23C229;
   border-radius: 50%;
+}
+
+.section-we-work__steps__item:nth-of-type(5):before,
+.section-we-work__steps__item:nth-of-type(5):after {
+  content: none;
 }
 
 /* .we-work__buttons button, .we-work__buttons a {
