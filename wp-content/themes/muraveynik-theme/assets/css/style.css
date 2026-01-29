@@ -2384,7 +2384,7 @@ transition: stroke 0.3s;
 
 @media(max-width: 768px) {
   .section-hero__content {
-    padding-top: 95%;
+    padding-top: 75%;
     width: 100%;
   }
 
