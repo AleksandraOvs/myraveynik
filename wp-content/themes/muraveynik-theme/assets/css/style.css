@@ -1314,15 +1314,15 @@ margin-bottom: 20px;
 }
 
 .step-item__text p {
-  line-height: 1.2;
+  line-height: 140%;
 }
 
 .step-item__text {
-  flex-basis: 50%;
+  flex-basis: 60%;
 }
 
 .steps-item__img {
-  width: 50%;
+  width: 40%;
   position: absolute;
   right: 0;
   top: 0;
