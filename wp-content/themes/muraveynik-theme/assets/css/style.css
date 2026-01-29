@@ -473,7 +473,7 @@ section {
   display: block;
   position: absolute;
   z-index: 2;
-  top: 133px;
+  top: 150px;
   right: 8%;
   width: 35%;
   height: calc(100vh - 150px);
