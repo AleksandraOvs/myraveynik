@@ -1292,6 +1292,7 @@ margin-bottom: 20px;
 }
 
 .section-we-work__steps__item:nth-of-type(5) {
+  border-top: 1px dashed #7e7e7e;
   border-right: 1px dashed #7e7e7e;
   border-bottom: 1px dashed #7e7e7e;
 }
