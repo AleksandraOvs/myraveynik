@@ -562,7 +562,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 7%;
+  padding-bottom: 80px;
 }
 
 .frontpage__description {
