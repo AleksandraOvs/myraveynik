@@ -430,7 +430,7 @@
     font-size: 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 24px;
 }
 
 .contact-us__list__item span {
