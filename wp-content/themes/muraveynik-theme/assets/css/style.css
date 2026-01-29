@@ -477,7 +477,7 @@ section {
   top: 133px;
   right: 8%;
   width: 35%;
-  height: calc(100vh - 150px);
+  height: 100%;
   background: url(../../images/main-bg.png) no-repeat;
   background: url(../../images/main-bg.webp) no-repeat;
   background-size: contain;
@@ -492,7 +492,7 @@ section {
 @media (max-width: 1400px) {
   .main-page__decor {
     right: 0;
-    width: 40%;
+    width: 50%;
   }
 }
 
